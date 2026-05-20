@@ -13,7 +13,7 @@ const personSchema = new mongoose.Schema({
     age:{
         type: Number,
     },
-    word:{
+    work:{
         type: String,
         enum:['chef', 'waiter', 'manager'], //enum use ho rha kyuki hm bs inhi tin value me se choose kr skte otherwise wo value nhi lega
         required: true
