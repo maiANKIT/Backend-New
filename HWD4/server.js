@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const db = require('./db');
 const Person = require('./models/person')
+const MenuItem = require('./models/Menu')
 
 const bodyParser = require('body-parser'); //ye kisi bhi data k form ko change kr k ek required form de change kr k de jiski wajah se hme different different data type ko alag se deal krne ki jarurat nhi padti
 app.use(bodyParser.json());
@@ -64,6 +65,66 @@ app.post('/person', async(req, res)=>{
         //if above is failed i mean data is not saved then it will automatically catched in this
         console.log(err);
         res.status(500).json({error: 'Internal server error'});
+
+    }
+
+})
+
+app.get('/person', async(req, res)=>{
+
+    try{
+
+        const data = await Person.find();
+        console.log('data fetched');
+        res.status(200).json(data);
+
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+
+})
+
+app.post('/menu', async(req, res)=>{
+
+    try{
+
+        const data = req.body;
+
+        const NewMenu = new MenuItem(data);
+
+        const response = await NewMenu.save();
+
+        console.log('New Menu is saved');
+
+        res.status(200).json(response);
+
+    }
+    catch{
+
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+
+    }
+
+})
+
+app.get('/menu', async(req, res)=>{
+
+    try{
+        
+        const data = await MenuItem.find();
+
+        console.log('data is fetched');
+
+        res.status(200).json(data);
+
+    }
+    catch{
+
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
 
     }
 
