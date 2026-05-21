@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const db = require('./db');
-const Person = require('./models/person')
-const MenuItem = require('./models/Menu')
+// const Person = require('./models/person')
+// const MenuItem = require('./models/Menu')
 
 const bodyParser = require('body-parser'); //ye kisi bhi data k form ko change kr k ek required form de change kr k de jiski wajah se hme different different data type ko alag se deal krne ki jarurat nhi padti
 app.use(bodyParser.json());
@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
  
 app.get('/', (req, res)=>{
-    res.send('Welcome to my hotel... How I can help you?')
+    res.send('Welcome to my hotel')
 })
 
 
@@ -44,91 +44,126 @@ app.get('/', (req, res)=>{
 
 //async: is designed asyncronous
 
+//this is we are going to test in routers thats why it is comment out
+// app.post('/person', async(req, res)=>{
 
-app.post('/person', async(req, res)=>{
+//     try{
 
-    try{
+//         const data = req.body //assuming the request body contains the person data
 
-        const data = req.body //assuming the request body contains the person data
+//         //create a new person document using the mongoose model
+//         const newPerson = new Person(data);
 
-        //create a new person document using the mongoose model
-        const newPerson = new Person(data);
+//         //save the new person to the database
+//         const response = await newPerson.save();
 
-        //save the new person to the database
-        const response = await newPerson.save();
+//         console.log('data saved');
+//         res.status(200).json(response);
 
-        console.log('data saved');
-        res.status(200).json(response);
+//     }
+//     catch(err){
+//         //if above is failed i mean data is not saved then it will automatically catched in this
+//         console.log(err);
+//         res.status(500).json({error: 'Internal server error'});
 
-    }
-    catch(err){
-        //if above is failed i mean data is not saved then it will automatically catched in this
-        console.log(err);
-        res.status(500).json({error: 'Internal server error'});
+//     }
 
-    }
+// })
 
-})
+//this is we are going to test in routers thats why it is comment out
+// app.get('/person', async(req, res)=>{
 
-app.get('/person', async(req, res)=>{
+//     try{
 
-    try{
+//         const data = await Person.find();
+//         console.log('data fetched');
+//         res.status(200).json(data);
 
-        const data = await Person.find();
-        console.log('data fetched');
-        res.status(200).json(data);
+//     }
+//     catch(err){
+//         console.log(err);
+//         res.status(500).json({error: 'Internal Server Error'});
+//     }
 
-    }
-    catch(err){
-        console.log(err);
-        res.status(500).json({error: 'Internal Server Error'});
-    }
+// })
 
-})
+// app.post('/menu', async(req, res)=>{
 
-app.post('/menu', async(req, res)=>{
+//     try{
 
-    try{
+//         const data = req.body;
 
-        const data = req.body;
+//         const NewMenu = new MenuItem(data);
 
-        const NewMenu = new MenuItem(data);
+//         const response = await NewMenu.save();
 
-        const response = await NewMenu.save();
+//         console.log('New Menu is saved');
 
-        console.log('New Menu is saved');
+//         res.status(200).json(response);
 
-        res.status(200).json(response);
+//     }
+//     catch{
 
-    }
-    catch{
+//         console.log(err);
+//         res.status(500).json({error: 'Internal Server Error'});
 
-        console.log(err);
-        res.status(500).json({error: 'Internal Server Error'});
+//     }
 
-    }
+// })
 
-})
+// app.get('/menu', async(req, res)=>{
 
-app.get('/menu', async(req, res)=>{
-
-    try{
+//     try{
         
-        const data = await MenuItem.find();
+//         const data = await MenuItem.find();
 
-        console.log('data is fetched');
+//         console.log('data is fetched');
 
-        res.status(200).json(data);
+//         res.status(200).json(data);
 
-    }
-    catch{
+//     }
+//     catch{
 
-        console.log(err);
-        res.status(500).json({error: 'Internal Server Error'});
+//         console.log(err);
+//         res.status(500).json({error: 'Internal Server Error'});     
 
-    }
+//     }
 
-})
+// })
+
+
+//this is we are going to test in routers thats why it is comment out
+// app.get('/person/:workType', async (req, res)=>{
+
+//     try{
+//     const workType = req.params.workType; //extract the work type from the url parameter
+//         if(workType == 'chef' || workType == 'manager' || workType == 'waiter'){
+
+//             const response = await Person.find({work: workType});
+//             console.log('response fetched');
+//             res.status(200).json(response);
+
+//         }
+//         else{
+
+//                 res.status(404).json({error: 'Invalid work type'});
+
+//         }
+//     }
+//     catch(err){
+
+//         console.log(err);
+//         res.status(500).json({error: 'Internal server error'}); 
+        
+//     }
+
+// })
+
+const personRoutes = require('./routes/personRoutes');
+const menuItemRoutes = require('./routes/menuItemRoutes');
+
+app.use('/person', personRoutes);
+app.use('/menu', menuItemRoutes);
 
 app.listen(3000, ()=>{
     console.log('server is running on port 3000')
