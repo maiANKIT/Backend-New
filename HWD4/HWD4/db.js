@@ -1,8 +1,6 @@
 const mongoose = require('mongoose'); //for db hme sbse phle mongoose ko require krna hota h
-require('dotenv').config();
 
-// const mongoURL = 'mongodb://127.0.0.1:27017/hotels';
-const mongoURL = process.env.MONGODB_URL;
+const mongoURL = 'mongodb://127.0.0.1:27017/hotels';
 
 
  //hotel is database name which will be create if not exist
